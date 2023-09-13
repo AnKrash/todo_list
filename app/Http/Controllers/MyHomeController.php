@@ -27,32 +27,36 @@ class MyHomeController extends Controller
     {
         $query = Task::with('subtasks');
 
-// Filter by status
-        if ($request->has('status')) {
+        // Фільтрувати за статусом
+        if ($request->has('status') && $request->input('status') !== 'all') {
             $query->where('status', $request->input('status'));
         }
-        // Filter by priority range
+
+        // Фільтрувати за діапазоном пріоритетів
         if ($request->has('priority_from')) {
             $query->where('priority', '>=', (int)$request->input('priority_from'));
         }
         if ($request->has('priority_to')) {
-            $query->where('priority', '>=', (int)$request->input('priority_from'));
+            $query->where('priority', '>=', (int)$request->input('priority_to'));
         }
-// Full-text search by title
+        // Повнотекстовий пошук за назвою
+//        if ($request->has('title')) {
+//            $query->where('title', 'like', '%' . $request->input('title') . '%');
+//        }
         if ($request->has('title')) {
-            $query->where('title', 'like', '%' . $request->input('title') . '%');
+            $title = $request->input('title');
+            $query->where('title', 'like', '%' . $title . '%');
         }
-        // Sorting
+        // Сортування
         if ($request->has('sort')) {
             $sortField = $request->input('sort');
-            $query->orderBy($sortField);
+            $sortDirection = $request->has('sort_direction') ? $request->input('sort_direction') : 'asc';
+
+            $query->orderBy($sortField, $sortDirection);
         }
         $tasks = $query->get();
         return view('myhome', ['tasks' => $tasks]);
 
     }
-//    public function create()
-//    {
-//        return view('create');
-//    }
+
 }

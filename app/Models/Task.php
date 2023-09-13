@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 class Task extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         'status',
         'priority',
@@ -20,13 +21,14 @@ class Task extends Model
         'createdAt',
         'completedAt',
     ];
+
     public function subtasks()
     {
         return $this->hasMany(Subtask::class);
     }
+
     public function hasUnfinishedSubtasks()
     {
         return $this->subtasks()->where('status', 'todo')->exists();
     }
-
 }

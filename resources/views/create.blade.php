@@ -33,9 +33,6 @@
             <label for="priority">Пріоритет</label>
             <input type="number" name="priority" class="form-control" required>
         </div>
-
-        <!-- Додайте інші поля, які потрібно створити -->
-
         <button type="submit" class="btn btn-primary">Створити</button>
     </form>
 
@@ -43,3 +40,4 @@
 </div>
 </body>
 </html>
+

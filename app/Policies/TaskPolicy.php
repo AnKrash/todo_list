@@ -19,21 +19,43 @@ class TaskPolicy
     {
         //
     }
+
+    /**
+     * Determine whether the user can update the task.
+     *
+     * @param User $user
+     * @param Task $task
+     * @return bool
+     */
     public function update(User $user, Task $task)
     {
-        // Check if the user owns the task and it's not completed
+        // Перевіряє, чи користувач є власником завдання та воно не виконане
         return $user->id === $task->user_id && $task->status !== 'done';
     }
 
+    /**
+     * Determine whether the user can delete the task.
+     *
+     * @param User $user
+     * @param Task $task
+     * @return bool
+     */
     public function delete(User $user, Task $task)
     {
-        // Check if the user owns the task and it's not completed
+        // Перевіряє, чи користувач є власником завдання та воно не виконане
         return $user->id === $task->user_id && $task->status !== 'done';
     }
 
+    /**
+     * Determine whether the user can complete the task.
+     *
+     * @param User $user
+     * @param Task $task
+     * @return bool
+     */
     public function complete(User $user, Task $task)
     {
-        // Check if the user owns the task and it has no unfinished subtasks
+        // Перевіряє, чи користувач є власником завдання та в ньому немає незавершених підзавдань
         return $user->id === $task->user_id && $task->subtasks()->where('status', 'todo')->count() === 0;
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Subtask;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class SubtaskController extends Controller
 {
@@ -30,7 +31,7 @@ class SubtaskController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -39,20 +40,26 @@ class SubtaskController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Display the details of a subtask by its identifier.
      *
-     * @param  \App\Models\Subtask  $subtask
-     * @return \Illuminate\Http\Response
+     * @param int $id The subtask identifier.
+     * @return View
      */
-    public function show(Subtask $subtask)
+    public function show($id)
     {
-        //
+        $subtask = Subtask::find($id); // Отримати підзавдання за ідентифікатором
+
+        if (!$subtask) {
+            abort(404); // Обробити випадок, коли підзавдання не знайдено
+        }
+
+        return view('subtask.show', ['subtask' => $subtask]); // Повернути перегляд «subtask.show» з даними підзавдання
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Subtask  $subtask
+     * @param \App\Models\Subtask $subtask
      * @return \Illuminate\Http\Response
      */
     public function edit(Subtask $subtask)
@@ -63,8 +70,8 @@ class SubtaskController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Subtask  $subtask
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\Subtask $subtask
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Subtask $subtask)
@@ -75,7 +82,7 @@ class SubtaskController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Subtask  $subtask
+     * @param \App\Models\Subtask $subtask
      * @return \Illuminate\Http\Response
      */
     public function destroy(Subtask $subtask)
