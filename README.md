@@ -25,4 +25,6 @@ Compile Frontend Assets with npm run dev.
 
 Start the Development Server.
 
+Please note: When using a filter, you must select the "To Do" or "Done" field.
+
 ENJOY :)
